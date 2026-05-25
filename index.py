@@ -41,6 +41,7 @@ def mostrar_productos():
               f"Precio base: ${producto['precio']:,.0f}")
 
 def escoger_categoria():
+    '''Permite al usuario seleccionar una categoría válida de los productos disponibles.'''
     while True:
         categoria = input("Ingrese la categoria objetivo: ").strip()
 
@@ -51,6 +52,7 @@ def escoger_categoria():
         print("Categoría no encontrada. Por favor, intente de nuevo.")
 
 def definir_umbral():
+    '''Permite al usuario definir un umbral válido para aplicar el descuento.'''
     while True:
         try:
             umbral = int(input("Ingrese el umbral: "))
@@ -61,10 +63,6 @@ def definir_umbral():
             return umbral
         except ValueError:
             print("Entrada inválida. Por favor, ingrese un número válido.")
-        
-def calcular_precio_total(producto):
-    '''Calcula el precio total de un producto después de aplicar el descuento.'''
-    return producto['precio'] - producto['descuento']
 
 def validar_descuento(categoria_objetivo, umbral):
     '''Valida que productos cumplen con los criterios para aplicar un descuento.'''
@@ -81,17 +79,21 @@ def validar_descuento(categoria_objetivo, umbral):
 
     return productos_mas_descuento
 
+def calcular_precio_total(producto):
+    '''Calcula el precio total de un producto después de aplicar el descuento.'''
+    return producto['precio'] - producto['descuento']
+
 def main():
     print("Bienvenido.")
 
     mostrar_productos()
     categoria_objetivo = escoger_categoria()
     umbral = definir_umbral()
-    productos = validar_descuento(categoria_objetivo, umbral)
+    productos_actualizados = validar_descuento(categoria_objetivo, umbral)
 
     print("----------------------")
     print("Productos actualizados:")
-    for producto in productos:
+    for producto in productos_actualizados:
         print("----------------------")
         print(f"Nombre: {producto['nombre']}\n" +
               f"Categoría: {producto['categoria']}\n" +
