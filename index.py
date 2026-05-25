@@ -62,6 +62,9 @@ def definir_umbral():
         except ValueError:
             print("Entrada inválida. Por favor, ingrese un número válido.")
         
+def calcular_precio_total(producto):
+    '''Calcula el precio total de un producto después de aplicar el descuento.'''
+    return producto['precio'] - producto['descuento']
 
 def validar_descuento(categoria_objetivo, umbral):
     '''Valida que productos cumplen con los criterios para aplicar un descuento.'''
@@ -71,10 +74,10 @@ def validar_descuento(categoria_objetivo, umbral):
 
     for producto in PRODUCTOS:
         if (producto['categoria']).lower() == categoria_objetivo.lower() and producto['precio'] > umbral:
-            precio_con_descuento = producto['precio'] * (1 - descuento)
-            productos_mas_descuento.append({**producto, 'precio_total': precio_con_descuento})
+            cantidad_descuento = producto['precio'] * descuento
+            productos_mas_descuento.append({**producto, 'descuento': cantidad_descuento})
         else:
-            productos_mas_descuento.append({**producto, 'precio_total': producto['precio']})
+            productos_mas_descuento.append({**producto, 'descuento': 0})
 
     return productos_mas_descuento
 
@@ -87,13 +90,13 @@ def main():
     productos = validar_descuento(categoria_objetivo, umbral)
 
     print("----------------------")
-    print("Resumen")
+    print("Productos actualizados:")
     for producto in productos:
         print("----------------------")
         print(f"Nombre: {producto['nombre']}\n" +
               f"Categoría: {producto['categoria']}\n" +
               f"Precio base: ${producto['precio']:,.0f}\n" +
-              f"Descuento aplicado: ${int(producto['precio'] - producto['precio_total']):,.0f}\n" +
-              f"Precio total: ${int(producto['precio_total']):,.0f}")
+              f"Descuento aplicado: ${int(producto['descuento']):,.0f}\n" +
+              f"Precio total: ${int(calcular_precio_total(producto)):,.0f}")
 
 main()
